@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pendaftaran Lomba HUT RI ke-80</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #d32f2f, #c2185b);
+      color: #fff;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 600px;
+      background: #fff;
+      color: #333;
+      margin: 30px auto;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+    h1 {
+      text-align: center;
+      color: #d32f2f;
+      font-size: 1.8em;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      margin-top: 5px;
+      font-size: 1em;
+    }
+    textarea {
+      resize: vertical;
+    }
+    button {
+      margin-top: 20px;
+      width: 100%;
+      background-color: #d32f2f;
+      color: #fff;
+      padding: 12px;
+      font-size: 1.1em;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+    button:hover {
+      background-color: #b71c1c;
+    }
+    .footer {
+      text-align: center;
+      margin-top: 20px;
+      color: #fff;
+      font-size: 0.9em;
+    }
+    .hidden {
+      display: none;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        margin: 15px;
+        padding: 20px;
+      }
+      h1 {
+        font-size: 1.5em;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Formulir Pendaftaran Lomba</h1>
+    <form id="formPendaftaran">
+      <label for="nama">Nama Penanggung Jawab / Ketua Tim:</label>
+      <input type="text" id="nama" name="nama" required>
+
+      <label for="departemen">Departemen:</label>
+      <select id="departemen" name="departemen" required>
+        <option value="">-- Pilih Departemen --</option>
+        <option>Compound</option>
+        <option>Laboratorium</option>
+        <option>Sortasi</option>
+        <option>Maintenance</option>
+        <option>Proses</option>
+        <option>Office</option>
+        <option value="lainnya">Lainnya</option>
+      </select>
+
+      <div id="inputLainnya" class="hidden">
+        <label for="departemenLain">Tulis Departemen Lainnya:</label>
+        <input type="text" id="departemenLain" name="departemenLain">
+      </div>
+
+      <label for="lomba">Pilih Jenis Lomba:</label>
+      <select id="lomba" name="lomba" required>
+        <option value="">-- Pilih Lomba --</option>
+        <option>Bola Futsal</option>
+        <option>Badminton</option>
+        <option>Panco</option>
+        <option>PES / Game Bola</option>
+        <option>Catur</option>
+        <option>Masukkan Paku Dalam Botol</option>
+        <option>Estafet Sedotan</option>
+        <option>Estafet Tepung</option>
+        <option>Goyang Kardus</option>
+        <option>Bakiak</option>
+        <option>Tarik Tambang</option>
+        <option>Makan Kerupuk (Anak)</option>
+        <option>Balap Karung (Anak)</option>
+        <option>Lomba Lari (Anak)</option>
+      </select>
+
+      <label for="anggota">Nama-nama Anggota Tim:</label>
+      <textarea id="anggota" name="anggota" rows="4" placeholder="Jika individu cukup isi '-' atau kosongkan"></textarea>
+
+      <button type="submit">Daftar & Kirim ke WhatsApp</button>
+    </form>
+  </div>
+
+  <div class="footer">
+    &copy; 2025 - Panitia HUT RI ke-80 PKS Setia Agro Abadi
+  </div>
+
+  <script>
+    const departemenSelect = document.getElementById('departemen');
+    const inputLainnya = document.getElementById('inputLainnya');
+    const departemenLain = document.getElementById('departemenLain');
+
+    departemenSelect.addEventListener('change', () => {
+      if (departemenSelect.value === 'lainnya') {
+        inputLainnya.classList.remove('hidden');
+        departemenLain.required = true;
+      } else {
+        inputLainnya.classList.add('hidden');
+        departemenLain.required = false;
+        departemenLain.value = '';
+      }
+    });
+
+    document.getElementById("formPendaftaran").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const nama = document.getElementById("nama").value;
+      const lomba = document.getElementById("lomba").value;
+      const anggota = document.getElementById("anggota").value || '-';
+
+      const departemenVal = departemenSelect.value === 'lainnya' ? departemenLain.value : departemenSelect.value;
+
+      let pesan = `Halo Panitia,\nSaya ingin mendaftar lomba HUT RI ke-80.\n\n` +
+                  `Nama Ketua Tim: ${nama}\n` +
+                  `Departemen: ${departemenVal}\n` +
+                  `Jenis Lomba: ${lomba}\n` +
+                  `Anggota Tim:\n${anggota}\n\n` +
+                  `Terima kasih.`;
+
+      const url = `https://wa.me/6285246461306?text=${encodeURIComponent(pesan)}`;
+      window.open(url, '_blank');
+    });
+  </script>
+
+</body>
+</html>
